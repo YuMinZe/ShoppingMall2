@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/fanhui"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/xiangzuo"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="商品详情"
+        android:textSize="28sp"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/gengduo"
+        android:layout_marginRight="10dp"/>
+
+</LinearLayout>
