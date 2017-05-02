@@ -1,6 +1,8 @@
 package com.hxzs.mall.fragment.homefragment.activity;
 
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +25,16 @@ public class ParticularsActivity extends AppCompatActivity {
     private TextView mName;
     private TextView mPrice;
     private ImageView mImages;
-
+    private Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                EvenBusBean eventbus = (EvenBusBean) msg.obj;
+                ImageLoader.getInstance().displayImage(Constants.ImageURL+eventbus.getImages(),mImages);
+                mName.setText(eventbus.getName()+"");
+                mPrice.setText(eventbus.getPrice()+"");
+            }
+        };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +53,11 @@ public class ParticularsActivity extends AppCompatActivity {
         });
 
     }
-    @Subscribe(sticky = true,threadMode = ThreadMode.BACKGROUND)
+        @Subscribe(sticky = true,threadMode = ThreadMode.BACKGROUND)
     public void  onEventMainThread(EvenBusBean eventbus){
-        ImageLoader.getInstance().displayImage(Constants.ImageURL+eventbus.getImages(),mImages);
-        Log.i("zzz",Constants.ImageURL+eventbus.getImages());
-        mName.setText(eventbus.getName()+"");
-        mPrice.setText(eventbus.getPrice()+"");
-
+            Message msg = Message.obtain();
+            msg.obj = eventbus;
+            handler.sendMessage(msg);
     }
 
     @Override
