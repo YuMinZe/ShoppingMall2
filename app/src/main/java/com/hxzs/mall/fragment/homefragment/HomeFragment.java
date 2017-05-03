@@ -114,8 +114,23 @@ public class HomeFragment extends BaseFragment {
         //判断 有没有数据
         if(mResult !=null){
             HomeRecycleAdapter adapter = new HomeRecycleAdapter(mcontext, mResult);
-            mRecycler.setLayoutManager(new GridLayoutManager(mcontext,1));
+            GridLayoutManager grid = new GridLayoutManager(mcontext,1);
+            mRecycler.setLayoutManager(grid);
             mRecycler.setAdapter(adapter);
+            grid.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    //如果没有向下滑动,隐藏右边可以一下子弹到最上面的按钮
+                    if(position <=4 ){
+                        mImagebutton.setVisibility(View.GONE);//注意:XML布局中也要让控件隐藏一下
+                    }else {//如果向下滑动的距离超过3个item,就显示按钮
+                        mImagebutton.setVisibility(View.VISIBLE);
+                    }
+                    return 1;//此处只能返回1.
+                }
+            });
+
+
         }else{
             Toast.makeText(mcontext,"暂无展示的数据",Toast.LENGTH_SHORT).show();
         }
